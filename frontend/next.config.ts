@@ -5,7 +5,6 @@ const backendUrl =
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
-  output: 'standalone',
   async rewrites() {
     return {
       beforeFiles: [
