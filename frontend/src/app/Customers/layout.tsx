@@ -3,6 +3,11 @@ import SidebarNav from "../components/sidebarNav";
 import "../globals.css";
 import Link from "next/dist/client/link";
 
+export const metadata = {
+    title: 'Northwind Customers',
+    description: 'AdminLTE-style Next.js management system framework',
+};
+
 export default function CustomerLayout({
     children,
 }: {

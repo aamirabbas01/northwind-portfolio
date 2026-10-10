@@ -45,6 +45,7 @@ export default function Employees() {
     const [managers, setManagers] = useState<Manager[]>([]);
 
     useEffect(() => {
+        console.log("Fetching employees and managers...");
         fetchEmployees();
         loadManagers();
     }, []);
@@ -71,17 +72,19 @@ export default function Employees() {
     const fetchEmployees = async () => {
         try {
             const token = localStorage.getItem("token");
+            console.log("Token:", token);
 
             const response = await fetch(
-                "/api/employees",
+                "https://northwindnode.runasp.net/api/employees",
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
                     }
                 }
             );
 
             const data = await response.json();
+            console.log("Fetched employees:", data);
             setEmployees(data);
             setFilteredEmployees(data);
         } catch (error) {

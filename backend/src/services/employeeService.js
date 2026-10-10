@@ -5,9 +5,16 @@ async function getEmployees() {
     const pool = await connectDB();
 
     const result = await pool.request().query(`
-        SELECT *
-        FROM Employees
-        ORDER BY EmployeeID
+        SELECT
+    e.*,
+    CONCAT(
+        m.FirstName,
+        ' ',
+        m.LastName
+         ) AS ReportsToName
+        FROM Employees e
+        LEFT JOIN Employees m
+    ON e.ReportsTo = m.EmployeeID
     `);
 
     const employees = result.recordset.map(employee => {

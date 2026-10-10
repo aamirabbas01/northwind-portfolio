@@ -45,10 +45,9 @@ export default function Sidebar() {
         pathname === href || pathname.startsWith(`${href}/`);
 
     const getLinkClassName = (href: string, baseClassName: string) =>
-        `${baseClassName} ${
-            isActivePath(href)
-                ? 'bg-blue-600 text-white shadow-sm'
-                : 'hover:bg-[#494e54] hover:text-white'
+        `${baseClassName} ${isActivePath(href)
+            ? 'bg-blue-600 text-white shadow-sm'
+            : 'hover:bg-[#494e54] hover:text-white'
         }`;
 
     const handleLogout = () => {
@@ -119,11 +118,10 @@ export default function Sidebar() {
                         <Link
                             href="/Dashboard"
                             aria-current={pathname === '/Dashboard' ? 'page' : undefined}
-                            className={`flex items-center gap-3 rounded px-3 py-2 transition ${
-                                pathname === '/Dashboard'
+                            className={`flex items-center gap-3 rounded px-3 py-2 transition ${pathname === '/Dashboard'
                                     ? 'bg-blue-600 text-white shadow-sm'
                                     : 'hover:bg-[#494e54] hover:text-white'
-                            }`}
+                                }`}
                         >
                             <LayoutDashboard size={18} />
                             <span>Dashboard</span>
@@ -135,11 +133,10 @@ export default function Sidebar() {
                         <button
                             onClick={() => toggleMenu('hr')}
                             aria-expanded={openMenus.hr}
-                            className={`flex w-full items-center justify-between rounded px-3 py-2 transition text-left ${
-                                isActivePath('/Employees') || isActivePath('/Customers')
+                            className={`flex w-full items-center justify-between rounded px-3 py-2 transition text-left ${isActivePath('/Employees') || isActivePath('/Customers')
                                     ? 'bg-[#494e54] text-white'
                                     : 'hover:bg-[#494e54] hover:text-white'
-                            }`}
+                                }`}
                         >
                             <div className="flex items-center gap-3">
                                 <Users size={18} />
@@ -178,11 +175,10 @@ export default function Sidebar() {
                         <button
                             onClick={() => toggleMenu('business')}
                             aria-expanded={openMenus.business}
-                            className={`flex w-full items-center justify-between rounded px-3 py-2 transition text-left ${
-                                isActivePath('/Dashboard/business')
+                            className={`flex w-full items-center justify-between rounded px-3 py-2 transition text-left ${isActivePath('/Dashboard/business')
                                     ? 'bg-[#494e54] text-white'
                                     : 'hover:bg-[#494e54] hover:text-white'
-                            }`}
+                                }`}
                         >
                             <div className="flex items-center gap-3">
                                 <Briefcase size={18} />
@@ -192,9 +188,9 @@ export default function Sidebar() {
                         </button>
                         {openMenus.business && (
                             <ul className="mt-1 space-y-1 pl-6">
-                                <li><Link href="/Dashboard/business/products" aria-current={isActivePath('/Dashboard/business/products') ? 'page' : undefined} className={getLinkClassName('/Dashboard/business/products', 'block rounded px-3 py-1.5 text-xs transition')}>Products</Link></li>
-                                <li><Link href="/Dashboard/business/suppliers" aria-current={isActivePath('/Dashboard/business/suppliers') ? 'page' : undefined} className={getLinkClassName('/Dashboard/business/suppliers', 'block rounded px-3 py-1.5 text-xs transition')}>Suppliers</Link></li>
-                                <li><Link href="/Dashboard/business/categories" aria-current={isActivePath('/Dashboard/business/categories') ? 'page' : undefined} className={getLinkClassName('/Dashboard/business/categories', 'block rounded px-3 py-1.5 text-xs transition')}>Categories</Link></li>
+                                <li><Link href="/Products" aria-current={isActivePath('/Products') ? 'page' : undefined} className={getLinkClassName('/Products', 'block rounded px-3 py-1.5 text-xs transition')}>Products</Link></li>
+                                <li><Link href="/Suppliers" aria-current={isActivePath('/Suppliers') ? 'page' : undefined} className={getLinkClassName('/Suppliers', 'block rounded px-3 py-1.5 text-xs transition')}>Suppliers</Link></li>
+                                <li><Link href="/Categories" aria-current={isActivePath('/Categories') ? 'page' : undefined} className={getLinkClassName('/Categories', 'block rounded px-3 py-1.5 text-xs transition')}>Categories</Link></li>
                             </ul>
                         )}
                     </li>
@@ -204,11 +200,10 @@ export default function Sidebar() {
                         <button
                             onClick={() => toggleMenu('orders')}
                             aria-expanded={openMenus.orders}
-                            className={`flex w-full items-center justify-between rounded px-3 py-2 transition text-left ${
-                                isActivePath('/Dashboard/orders')
+                            className={`flex w-full items-center justify-between rounded px-3 py-2 transition text-left ${isActivePath('/Dashboard/orders')
                                     ? 'bg-[#494e54] text-white'
                                     : 'hover:bg-[#494e54] hover:text-white'
-                            }`}
+                                }`}
                         >
                             <div className="flex items-center gap-3">
                                 <ShoppingCart size={18} />
@@ -229,11 +224,10 @@ export default function Sidebar() {
                         <button
                             onClick={() => toggleMenu('reports')}
                             aria-expanded={openMenus.reports}
-                            className={`flex w-full items-center justify-between rounded px-3 py-2 transition text-left ${
-                                isActivePath('/Dashboard/reports')
+                            className={`flex w-full items-center justify-between rounded px-3 py-2 transition text-left ${isActivePath('/Dashboard/reports')
                                     ? 'bg-[#494e54] text-white'
                                     : 'hover:bg-[#494e54] hover:text-white'
-                            }`}
+                                }`}
                         >
                             <div className="flex items-center gap-3">
                                 <BarChart3 size={18} />

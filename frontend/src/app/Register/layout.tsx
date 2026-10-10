@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Enter Credentials",
-  description: "Enter your credentials to continue",
+  title: "NORTHWIND | Register",
+  description: "Create a new account to continue",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/login">) {

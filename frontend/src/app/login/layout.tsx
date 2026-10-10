@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Enter Credentials",
+  title: "Northwind Login",
   description: "Enter your credentials to continue",
 };
 

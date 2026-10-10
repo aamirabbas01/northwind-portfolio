@@ -3,11 +3,10 @@ import SidebarNav from "../components/sidebarNav";
 import "../globals.css";
 import Link from "next/dist/client/link";
 export const metadata = {
-    title: 'Northwind Employees',
+    title: 'Northwind Categories',
     description: 'AdminLTE-style Next.js management system framework',
 };
-
-export default function EmployeesLayout({
+export default function CategoriesLayout({
     children,
 }: {
     children: React.ReactNode;
@@ -19,7 +18,7 @@ export default function EmployeesLayout({
                     <aside className="w-64 bg-[#343a40] text-[#c2c7d0] flex-shrink-0 hidden md:block">
                         <div className="p-4 border-b border-gray-700">
                             <span className="text-xl font-bold text-white">
-                                Northwind Employees
+                                Northwind Categories
                             </span>
                         </div>
 
