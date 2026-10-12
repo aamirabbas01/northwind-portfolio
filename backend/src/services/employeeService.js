@@ -17,44 +17,44 @@ async function getEmployees() {
     ON e.ReportsTo = m.EmployeeID
     `);
 
-    const employees = result.recordset.map(employee => {
+    /*  const employees = result.recordset.map(employee => {
+ 
+         let photoBase64 = null;
+ 
+         if (employee.Photo) {
+ 
+             let imageBytes = employee.Photo;
+ 
+             // Northwind OLE wrapper
+             if (
+                 imageBytes.length > 78 &&
+                 imageBytes[78] === 0x42 &&
+                 imageBytes[79] === 0x4D
+             ) {
+                 imageBytes = imageBytes.slice(78);
+             }
+ 
+             // Standard BMP
+             else if (
+                 imageBytes.length > 2 &&
+                 imageBytes[0] === 0x42 &&
+                 imageBytes[1] === 0x4D
+             ) {
+                 // use as-is
+             }
+ 
+             photoBase64 = Buffer
+                 .from(imageBytes)
+                 .toString("base64");
+         }
+ 
+         return {
+             ...employee,
+             PhotoBase64: photoBase64
+         };
+     }); */
 
-        let photoBase64 = null;
-
-        if (employee.Photo) {
-
-            let imageBytes = employee.Photo;
-
-            // Northwind OLE wrapper
-            if (
-                imageBytes.length > 78 &&
-                imageBytes[78] === 0x42 &&
-                imageBytes[79] === 0x4D
-            ) {
-                imageBytes = imageBytes.slice(78);
-            }
-
-            // Standard BMP
-            else if (
-                imageBytes.length > 2 &&
-                imageBytes[0] === 0x42 &&
-                imageBytes[1] === 0x4D
-            ) {
-                // use as-is
-            }
-
-            photoBase64 = Buffer
-                .from(imageBytes)
-                .toString("base64");
-        }
-
-        return {
-            ...employee,
-            PhotoBase64: photoBase64
-        };
-    });
-
-    return employees;
+    return result.recordset;
 }
 
 async function getEmployeeById(id) {

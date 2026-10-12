@@ -13,10 +13,12 @@ export default function Sidebar() {
     const isActivePath = (href: string) =>
         pathname === href || pathname.startsWith(`${href}/`);
     const isBusinessPath = isActivePath('/Products') || isActivePath('/Categories');
+    const isReportPath = isActivePath('/Report');
 
     const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({
         hr: true, // Opened by default to match your AdminLTE layout
         business: isBusinessPath,
+        reports: isReportPath,
     });
 
     const [userData, setUserData] = useState<{ username: string; profilePicture: string }>({
@@ -225,7 +227,7 @@ export default function Sidebar() {
                         <button
                             onClick={() => toggleMenu('reports')}
                             aria-expanded={openMenus.reports}
-                            className={`flex w-full items-center justify-between rounded px-3 py-2 transition text-left ${isActivePath('/Dashboard/reports')
+                            className={`flex w-full items-center justify-between rounded px-3 py-2 transition text-left ${isReportPath
                                 ? 'bg-[#494e54] text-white'
                                 : 'hover:bg-[#494e54] hover:text-white'
                                 }`}
@@ -236,6 +238,12 @@ export default function Sidebar() {
                             </div>
                             {openMenus.reports ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
                         </button>
+                        {openMenus.reports && (
+                            <ul className="mt-1 space-y-1 pl-6">
+                                <li><Link href="/Report/ReportSalesByCategory" aria-current={isActivePath('/Report/ReportSalesByCategory') ? 'page' : undefined} className={getLinkClassName('/Report/ReportSalesByCategory', 'block rounded px-3 py-1.5 text-xs transition')}>Sales By Category</Link></li>
+                                <li><Link href="/Report/ReportSupplierProduct" aria-current={isActivePath('/Report/ReportSupplierProduct') ? 'page' : undefined} className={getLinkClassName('/Report/ReportSupplierProduct', 'block rounded px-3 py-1.5 text-xs transition')}>Products By Suppliers</Link></li>
+                            </ul>
+                        )}
                     </li>
 
 

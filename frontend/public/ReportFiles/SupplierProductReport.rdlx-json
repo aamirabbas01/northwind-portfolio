@@ -1,0 +1,255 @@
+{
+  "Name": "SupplierProductReport",
+  "Width": "16cm",
+  "Layers": [
+    {
+      "Name": "default"
+    }
+  ],
+  "DataSources": [
+    {
+      "Name": "Northwind",
+      "ConnectionProperties": {
+        "DataProvider": "JSON",
+        "ConnectString": "jsondata={\"rows\":[]}"
+      }
+    }
+  ],
+  "DataSets": [
+    {
+      "Name": "SupplierProducts",
+      "Query": {
+        "DataSourceName": "Northwind",
+        "CommandText": "$.rows[*]"
+      },
+      "Fields": [
+        { "Name": "CompanyName", "DataField": "CompanyName" },
+        { "Name": "ProductName", "DataField": "ProductName" },
+        { "Name": "UnitPrice", "DataField": "UnitPrice" },
+        { "Name": "UnitsInStock", "DataField": "UnitsInStock" }
+      ]
+    }
+  ],
+  "Page": {
+    "PageWidth": "21cm",
+    "PageHeight": "29.7cm",
+    "LeftMargin": "2cm",
+    "RightMargin": "2cm",
+    "TopMargin": "2cm",
+    "BottomMargin": "2cm"
+  },
+  "Body": {
+    "Height": "3.5cm",
+    "ReportItems": [
+      {
+        "Type": "textbox",
+        "Name": "Title",
+        "CanGrow": true,
+        "KeepTogether": true,
+        "Value": "Supplier Product Report",
+        "Style": {
+          "FontSize": "16pt",
+          "FontWeight": "Bold"
+        },
+        "Top": "0cm",
+        "Left": "0cm",
+        "Height": "0.9cm",
+        "Width": "16cm"
+      },
+      {
+        "Type": "table",
+        "Name": "SupplierTable",
+        "DataSetName": "SupplierProducts",
+        "Top": "1.2cm",
+        "Left": "0cm",
+        "Width": "16cm",
+        "Height": "1.9cm",
+        "TableColumns": [
+          { "Width": "8cm" },
+          { "Width": "4cm" },
+          { "Width": "4cm" }
+        ],
+        "Header": {
+          "RepeatOnNewPage": true,
+          "TableRows": [
+            {
+              "Height": "0.7cm",
+              "TableCells": [
+                {
+                  "Item": {
+                    "Type": "textbox",
+                    "Name": "HdrProduct",
+                    "CanGrow": true,
+                    "KeepTogether": true,
+                    "Value": "Supplier / Product",
+                    "Style": {
+                      "FontWeight": "Bold",
+                      "Color": "White",
+                      "BackgroundColor": "#1F4E79",
+                      "PaddingLeft": "3pt"
+                    }
+                  }
+                },
+                {
+                  "Item": {
+                    "Type": "textbox",
+                    "Name": "HdrPrice",
+                    "CanGrow": true,
+                    "KeepTogether": true,
+                    "Value": "Unit Price",
+                    "Style": {
+                      "FontWeight": "Bold",
+                      "Color": "White",
+                      "TextAlign": "Right",
+                      "BackgroundColor": "#1F4E79",
+                      "PaddingRight": "3pt"
+                    }
+                  }
+                },
+                {
+                  "Item": {
+                    "Type": "textbox",
+                    "Name": "HdrStock",
+                    "CanGrow": true,
+                    "KeepTogether": true,
+                    "Value": "Units In Stock",
+                    "Style": {
+                      "FontWeight": "Bold",
+                      "Color": "White",
+                      "TextAlign": "Right",
+                      "BackgroundColor": "#1F4E79",
+                      "PaddingRight": "3pt"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "TableGroups": [
+          {
+            "Group": {
+              "Name": "Supplier",
+              "GroupExpressions": [
+                "=Fields!CompanyName.Value"
+              ]
+            },
+            "SortExpressions": [
+              {
+                "Value": "=Fields!CompanyName.Value"
+              }
+            ],
+            "Header": {
+              "TableRows": [
+                {
+                  "Height": "0.6cm",
+                  "TableCells": [
+                    {
+                      "Item": {
+                        "Type": "textbox",
+                        "Name": "SupplierName",
+                        "CanGrow": true,
+                        "KeepTogether": true,
+                        "Value": "=Fields!CompanyName.Value",
+                        "Style": {
+                          "FontWeight": "Bold",
+                          "BackgroundColor": "#DDEBF7",
+                          "PaddingLeft": "3pt"
+                        }
+                      }
+                    },
+                    {
+                      "Item": {
+                        "Type": "textbox",
+                        "Name": "SupplierProductCount",
+                        "CanGrow": true,
+                        "KeepTogether": true,
+                        "Value": "=Count(Fields!ProductName.Value) & \" products\"",
+                        "Style": {
+                          "FontWeight": "Bold",
+                          "TextAlign": "Right",
+                          "BackgroundColor": "#DDEBF7",
+                          "PaddingRight": "3pt"
+                        }
+                      }
+                    },
+                    {
+                      "Item": {
+                        "Type": "textbox",
+                        "Name": "SupplierStock",
+                        "CanGrow": true,
+                        "KeepTogether": true,
+                        "Value": "=Sum(Fields!UnitsInStock.Value)",
+                        "Style": {
+                          "FontWeight": "Bold",
+                          "Format": "N0",
+                          "TextAlign": "Right",
+                          "BackgroundColor": "#DDEBF7",
+                          "PaddingRight": "3pt"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "Details": {
+          "SortExpressions": [
+            {
+              "Value": "=Fields!ProductName.Value"
+            }
+          ],
+          "TableRows": [
+            {
+              "Height": "0.6cm",
+              "TableCells": [
+                {
+                  "Item": {
+                    "Type": "textbox",
+                    "Name": "ProductName",
+                    "CanGrow": true,
+                    "KeepTogether": true,
+                    "Value": "=Fields!ProductName.Value",
+                    "Style": {
+                      "PaddingLeft": "18pt"
+                    }
+                  }
+                },
+                {
+                  "Item": {
+                    "Type": "textbox",
+                    "Name": "UnitPrice",
+                    "CanGrow": true,
+                    "KeepTogether": true,
+                    "Value": "=Fields!UnitPrice.Value",
+                    "Style": {
+                      "Format": "C2",
+                      "TextAlign": "Right",
+                      "PaddingRight": "3pt"
+                    }
+                  }
+                },
+                {
+                  "Item": {
+                    "Type": "textbox",
+                    "Name": "UnitsInStock",
+                    "CanGrow": true,
+                    "KeepTogether": true,
+                    "Value": "=Fields!UnitsInStock.Value",
+                    "Style": {
+                      "Format": "N0",
+                      "TextAlign": "Right",
+                      "PaddingRight": "3pt"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

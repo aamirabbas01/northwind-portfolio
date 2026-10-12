@@ -12,7 +12,6 @@ interface Employee {
     Country: string;
     PhotoPath?: string;
     ReportsTo?: number;
-    PhotoBase64?: string;
 }
 interface Manager {
     EmployeeID: number;
@@ -22,20 +21,7 @@ interface Manager {
 
 
 
-const bufferToBase64 = (photo: {
-    type: string;
-    data: number[];
-}) => {
-    const binary = Uint8Array.from(photo.data);
 
-    let str = "";
-
-    binary.forEach((byte) => {
-        str += String.fromCharCode(byte);
-    });
-
-    return btoa(str);
-};
 
 export default function Employees() {
     const [employees, setEmployees] = useState<Employee[]>([]);
@@ -75,7 +61,7 @@ export default function Employees() {
             console.log("Token:", token);
 
             const response = await fetch(
-                "https://northwindnode.runasp.net/api/employees",
+                "/api/employees",
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -225,11 +211,6 @@ export default function Employees() {
                                 </th>
 
                                 <th className="text-left p-3">
-                                    Photo
-                                </th>
-
-
-                                <th className="text-left p-3">
                                     Actions
                                 </th>
                             </tr>
@@ -257,19 +238,6 @@ export default function Employees() {
                                     <td className="p-3">
                                         {employee.Country}
                                     </td>
-
-                                    <td>
-                                        {employee.PhotoBase64 ? (
-                                            <img
-                                                src={`data:image/bmp;base64,${employee.PhotoBase64}`}
-                                                alt="Employee"
-                                                className="w-16 h-16 object-cover rounded"
-                                            />
-                                        ) : (
-                                            <span className="text-gray-400">No Photo</span>
-                                        )}
-                                    </td>
-
 
                                     <td className="p-3">
                                         <div className="flex gap-2 text-blue-600">

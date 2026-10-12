@@ -1,0 +1,301 @@
+{
+  "Name": "NorthwindSalesByCategory",
+  "Width": "16cm",
+  "Layers": [
+    {
+      "Name": "default"
+    }
+  ],
+  "DataSources": [
+    {
+      "Name": "Northwind",
+      "ConnectionProperties": {
+        "DataProvider": "JSON",
+        "ConnectString": "jsondata=[]"
+      }
+    }
+  ],
+  "DataSets": [
+    {
+      "Name": "SalesByCategory",
+      "Query": {
+        "DataSourceName": "Northwind",
+        "CommandText": "$.[*]"
+      },
+      "Fields": [
+        {
+          "Name": "CategoryName",
+          "DataField": "CategoryName"
+        },
+        {
+          "Name": "ProductName",
+          "DataField": "ProductName"
+        },
+        {
+          "Name": "UnitsSold",
+          "DataField": "UnitsSold"
+        },
+        {
+          "Name": "TotalSales",
+          "DataField": "TotalSales"
+        }
+      ]
+    }
+  ],
+  "ReportParameters": [
+    {
+      "Name": "StartDate",
+      "DataType": "DateTime",
+      "DefaultValue": {
+        "Values": [
+          {
+            "Value": "1996-07-01"
+          }
+        ]
+      },
+      "Prompt": "Start Date"
+    },
+    {
+      "Name": "EndDate",
+      "DataType": "DateTime",
+      "DefaultValue": {
+        "Values": [
+          {
+            "Value": "1998-05-31"
+          }
+        ]
+      },
+      "Prompt": "End Date"
+    }
+  ],
+  "Page": {
+    "PageWidth": "21cm",
+    "PageHeight": "29.7cm",
+    "LeftMargin": "2cm",
+    "RightMargin": "2cm",
+    "TopMargin": "2cm",
+    "BottomMargin": "2cm"
+  },
+  "Body": {
+    "Height": "3.5cm",
+    "ReportItems": [
+      {
+        "Type": "textbox",
+        "Name": "Title",
+        "CanGrow": true,
+        "KeepTogether": true,
+        "Value": "Northwind - Sales by Category and Product",
+        "Style": {
+          "FontSize": "16pt",
+          "FontWeight": "Bold"
+        },
+        "Top": "0cm",
+        "Left": "0cm",
+        "Height": "0.9cm",
+        "Width": "16cm"
+      },
+      {
+        "Type": "table",
+        "Name": "SalesTable",
+        "DataSetName": "SalesByCategory",
+        "Top": "1.2cm",
+        "Left": "0cm",
+        "Width": "13cm",
+        "Height": "1.9cm",
+        "TableColumns": [
+          {
+            "Width": "6cm"
+          },
+          {
+            "Width": "3.5cm"
+          },
+          {
+            "Width": "3.5cm"
+          }
+        ],
+        "Header": {
+          "RepeatOnNewPage": true,
+          "TableRows": [
+            {
+              "Height": "0.7cm",
+              "TableCells": [
+                {
+                  "Item": {
+                    "Type": "textbox",
+                    "Name": "HdrProduct",
+                    "CanGrow": true,
+                    "KeepTogether": true,
+                    "Value": "Category / Product",
+                    "Style": {
+                      "FontWeight": "Bold",
+                      "Color": "White",
+                      "BackgroundColor": "#1F4E79",
+                      "PaddingLeft": "3pt"
+                    }
+                  }
+                },
+                {
+                  "Item": {
+                    "Type": "textbox",
+                    "Name": "HdrUnits",
+                    "CanGrow": true,
+                    "KeepTogether": true,
+                    "Value": "Units Sold",
+                    "Style": {
+                      "FontWeight": "Bold",
+                      "Color": "White",
+                      "TextAlign": "Right",
+                      "BackgroundColor": "#1F4E79",
+                      "PaddingRight": "3pt"
+                    }
+                  }
+                },
+                {
+                  "Item": {
+                    "Type": "textbox",
+                    "Name": "HdrSales",
+                    "CanGrow": true,
+                    "KeepTogether": true,
+                    "Value": "Total Sales",
+                    "Style": {
+                      "FontWeight": "Bold",
+                      "Color": "White",
+                      "TextAlign": "Right",
+                      "BackgroundColor": "#1F4E79",
+                      "PaddingRight": "3pt"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "TableGroups": [
+          {
+            "Group": {
+              "Name": "Category",
+              "GroupExpressions": [
+                "=Fields!CategoryName.Value"
+              ]
+            },
+            "SortExpressions": [
+              {
+                "Value": "=Fields!CategoryName.Value"
+              }
+            ],
+            "Header": {
+              "TableRows": [
+                {
+                  "Height": "0.6cm",
+                  "TableCells": [
+                    {
+                      "Item": {
+                        "Type": "textbox",
+                        "Name": "CategoryName",
+                        "CanGrow": true,
+                        "KeepTogether": true,
+                        "Value": "=Fields!CategoryName.Value",
+                        "Style": {
+                          "FontWeight": "Bold",
+                          "BackgroundColor": "#DDEBF7",
+                          "PaddingLeft": "3pt"
+                        }
+                      }
+                    },
+                    {
+                      "Item": {
+                        "Type": "textbox",
+                        "Name": "CategoryUnits",
+                        "CanGrow": true,
+                        "KeepTogether": true,
+                        "Value": "=Sum(Fields!UnitsSold.Value)",
+                        "Style": {
+                          "FontWeight": "Bold",
+                          "Format": "N0",
+                          "TextAlign": "Right",
+                          "BackgroundColor": "#DDEBF7",
+                          "PaddingRight": "3pt"
+                        }
+                      }
+                    },
+                    {
+                      "Item": {
+                        "Type": "textbox",
+                        "Name": "CategorySales",
+                        "CanGrow": true,
+                        "KeepTogether": true,
+                        "Value": "=Sum(Fields!TotalSales.Value)",
+                        "Style": {
+                          "FontWeight": "Bold",
+                          "Format": "C2",
+                          "TextAlign": "Right",
+                          "BackgroundColor": "#DDEBF7",
+                          "PaddingRight": "3pt"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "Details": {
+          "SortExpressions": [
+            {
+              "Value": "=Fields!TotalSales.Value",
+              "Direction": "Descending"
+            }
+          ],
+          "TableRows": [
+            {
+              "Height": "0.6cm",
+              "TableCells": [
+                {
+                  "Item": {
+                    "Type": "textbox",
+                    "Name": "ProductName",
+                    "CanGrow": true,
+                    "KeepTogether": true,
+                    "Value": "=Fields!ProductName.Value",
+                    "Style": {
+                      "PaddingLeft": "18pt"
+                    }
+                  }
+                },
+                {
+                  "Item": {
+                    "Type": "textbox",
+                    "Name": "UnitsSold",
+                    "CanGrow": true,
+                    "KeepTogether": true,
+                    "Value": "=Fields!UnitsSold.Value",
+                    "Style": {
+                      "Format": "N0",
+                      "TextAlign": "Right",
+                      "PaddingRight": "3pt"
+                    }
+                  }
+                },
+                {
+                  "Item": {
+                    "Type": "textbox",
+                    "Name": "TotalSales",
+                    "CanGrow": true,
+                    "KeepTogether": true,
+                    "Value": "=Fields!TotalSales.Value",
+                    "Style": {
+                      "Format": "C2",
+                      "TextAlign": "Right",
+                      "PaddingRight": "3pt"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
