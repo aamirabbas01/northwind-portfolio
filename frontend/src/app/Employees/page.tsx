@@ -29,9 +29,9 @@ export default function Employees() {
     const [nameSearch, setNameSearch] = useState("");
     const [reportsTo, setReportsTo] = useState("");
     const [managers, setManagers] = useState<Manager[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        console.log("Fetching employees and managers...");
         fetchEmployees();
         loadManagers();
     }, []);
@@ -58,7 +58,6 @@ export default function Employees() {
     const fetchEmployees = async () => {
         try {
             const token = localStorage.getItem("token");
-            console.log("Token:", token);
 
             const response = await fetch(
                 "/api/employees",
@@ -70,11 +69,12 @@ export default function Employees() {
             );
 
             const data = await response.json();
-            console.log("Fetched employees:", data);
             setEmployees(data);
             setFilteredEmployees(data);
         } catch (error) {
             console.error(error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -263,7 +263,9 @@ export default function Employees() {
                                         colSpan={7}
                                         className="text-center p-6 text-gray-500"
                                     >
-                                        No employees found
+                                        {isLoading
+                                            ? "Employees Loading"
+                                            : "No employees found"}
                                     </td>
                                 </tr>
                             )}
