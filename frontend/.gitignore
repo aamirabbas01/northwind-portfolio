@@ -19,7 +19,6 @@
 
 # production
 /build
-/public/vendor/boldreports/
 
 # misc
 .DS_Store

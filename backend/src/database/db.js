@@ -8,7 +8,7 @@ const config = {
     password: process.env.DB_PASSWORD,
 
     options: {
-        instanceName: "SQLEXPRESS",
+        // instanceName: "SQLEXPRESS",
         trustServerCertificate: true,
         encrypt: false
     }
