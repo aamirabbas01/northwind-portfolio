@@ -17,10 +17,10 @@ const getAllProducts = async () => {
                 p.Discontinued,
                 s.CompanyName,
                 c.CategoryName
-            FROM [NorthWindMVC].[dbo].[Products] AS p
-            LEFT JOIN [NorthWindMVC].[dbo].[Suppliers] AS s
+            FROM [Products] AS p
+            LEFT JOIN [Suppliers] AS s
                 ON p.SupplierID = s.SupplierID
-            LEFT JOIN [NorthWindMVC].[dbo].[Categories] AS c
+            LEFT JOIN [Categories] AS c
                 ON p.CategoryID = c.CategoryID
         `);
 
@@ -36,6 +36,8 @@ const getProductById = async (id) => {
             SELECT
                 p.ProductID,
                 p.ProductName,
+                p.SupplierID,
+                p.CategoryID,
                 p.QuantityPerUnit,
                 p.UnitPrice,
                 p.UnitsInStock,
@@ -44,10 +46,10 @@ const getProductById = async (id) => {
                 p.Discontinued,
                 s.CompanyName,
                 c.CategoryName
-            FROM [NorthWindMVC].[dbo].[Products] AS p
-            LEFT JOIN [NorthWindMVC].[dbo].[Suppliers] AS s
+            FROM [Products] AS p
+            LEFT JOIN [Suppliers] AS s
                 ON p.SupplierID = s.SupplierID
-            LEFT JOIN [NorthWindMVC].[dbo].[Categories] AS c
+            LEFT JOIN [Categories] AS c
                 ON p.CategoryID = c.CategoryID
                 WHERE ProductID = @ProductID
         `);
@@ -150,7 +152,7 @@ const getSuppliers = async () => {
     const result = await pool.request()
         .query(`
             SELECT SupplierID, CompanyName
-            FROM [NorthWindMVC].[dbo].[Suppliers]
+            FROM [dbo].[Suppliers]
         `);
 
     return result.recordset;
@@ -161,7 +163,7 @@ const getCategories = async () => {
     const result = await pool.request()
         .query(`
             SELECT CategoryID, CategoryName
-            FROM [NorthWindMVC].[dbo].[Categories]
+            FROM [dbo].[Categories]
         `);
     return result.recordset;
 }

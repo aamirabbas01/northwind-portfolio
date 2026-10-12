@@ -6,7 +6,14 @@ async function getEmployees() {
 
     const result = await pool.request().query(`
         SELECT
-    e.*,
+    e.[EmployeeID]
+      ,e.[LastName]
+      ,e.[FirstName]
+      ,e.[Title]
+      ,e.[TitleOfCourtesy]
+      ,e.[City]
+      ,e.[Region]
+      ,e.[Country],
     CONCAT(
         m.FirstName,
         ' ',
