@@ -1,19 +1,22 @@
 import Image from "next/image";
-import northwindCover from "../assests/northwind_group_cover.jpeg";
 
 export default function HomePage() {
     return (
         <section className="px-4 pt-5">
             <div className="mx-auto w-full max-w-[1020px]">
                 <Image
-                    src={northwindCover}
+                    src="/images/northwind_group_cover.jpeg"
                     alt="New York City skyline with the Northwind Value Creation logo"
                     priority
-                    className="h-auto max-w-[1020px] rounded-lg object-cover"
+                    unoptimized
+                    className="mx-auto h-auto w-full max-w-[860px] rounded-lg object-cover"
+                    width={1452}
+                    height={747}
                 />
             </div>
 
-            <div className="mx-auto max-w-[1400px] text-base leading-8 text-slate-900 sm:text-xl mt-5">
+
+            <div className="mx-auto max-w-[1200px] text-base leading-8 text-slate-900 sm:text-xl mt-5 text-justify">
                 <p>
                     Northwind is a fictional company often used as a sample database
                     in tutorials and training materials for database management
