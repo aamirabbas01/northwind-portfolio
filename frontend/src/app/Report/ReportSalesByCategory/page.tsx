@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
-
+import { setLicenseKey } from "@mescius/activereportsjs/core";
 import '@mescius/activereportsjs/styles/ar-js-ui.css';
 import '@mescius/activereportsjs/styles/ar-js-viewer.css';
 
@@ -55,6 +55,7 @@ export default function SalesByCategoryPage() {
 
     useEffect(() => {
         if (!viewerReady) return;
+        setLicenseKey(process.env.NEXT_PUBLIC_ARJS_KEY ?? "");
 
         let cancelled = false;
 
@@ -97,7 +98,7 @@ export default function SalesByCategoryPage() {
                     ConnectString: `jsondata=${JSON.stringify({ rows })}`
                 };
                 definition.DataSets[0].Query.CommandText = '$.rows[*]';
-                console.log('Report rows:', rows.length, rows[0]);
+                // console.log('Report rows:', rows.length, rows[0]);
                 setRowCount(rows.length);
 
                 if (cancelled) return;

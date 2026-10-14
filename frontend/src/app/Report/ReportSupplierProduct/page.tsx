@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 
+import { setLicenseKey } from "@mescius/activereportsjs/core";
 import '@mescius/activereportsjs/styles/ar-js-ui.css';
 import '@mescius/activereportsjs/styles/ar-js-viewer.css';
 
@@ -47,6 +48,7 @@ export default function SupplierProductReportPage() {
 
     useEffect(() => {
         if (!viewerReady) return;
+        setLicenseKey(process.env.NEXT_PUBLIC_ARJS_KEY ?? "");
 
         let cancelled = false;
 
