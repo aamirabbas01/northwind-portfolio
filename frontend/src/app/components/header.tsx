@@ -1,36 +1,42 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from 'next/link';
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
 
 export default function Header() {
-    const [username, setUsername] = useState("");
-    const [profilePicture, setProfilePicture] = useState("");
-    const [isMounted, setIsMounted] = useState(false);
+    const [mounted, setMounted] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const [user, setUser] = useState({
+        username: "",
+        profilePicture: "",
+    });
 
     useEffect(() => {
-        setIsMounted(true);
+        setMounted(true);
 
-        const storedName = localStorage.getItem("username") || "";
-        let storedPic = localStorage.getItem("profilePicture") || "";
+        setUser({
+            username: localStorage.getItem("username") || "",
+            profilePicture: localStorage.getItem("profilePicture") || "",
+        });
+    }, []);
 
-        // Fix Northwind/OLE DB Base64 bitmap header padding if it exists
-        if (storedPic && !storedPic.startsWith("data:") && storedPic.length > 100) {
-            // If the base64 string includes an OLE package header, common in Northwind,
-            // stripping the first 78 bytes (104 base64 characters) can restore the raw BMP/JPEG.
-            // Adjust this substring shift if your API already cleans it up!
-            if (storedPic.substring(0, 20).includes("Qk0")) {
-                // Already a valid BMP string starting with 'BM' in base64 ("Qk0")
-                storedPic = `data:image/bmp;base64,${storedPic}`;
-            } else {
-                // Try treating it as standard jpeg/png fallback asset injection
-                storedPic = `data:image/jpeg;base64,${storedPic}`;
-            }
+    const profilePicture = useMemo(() => {
+        let picture = user.profilePicture;
+
+        if (
+            picture &&
+            !picture.startsWith("data:") &&
+            picture.length > 100
+        ) {
+            picture = picture.substring(0, 20).includes("Qk0")
+                ? `data:image/bmp;base64,${picture}`
+                : `data:image/jpeg;base64,${picture}`;
         }
 
-        setUsername(storedName);
-        setProfilePicture(storedPic);
-    }, []);
+        return picture;
+    }, [user.profilePicture]);
 
     const logout = () => {
         localStorage.removeItem("token");
@@ -43,83 +49,212 @@ export default function Header() {
         window.location.href = "/";
     };
 
-    // Prevent Next.js hydration flickering from localstorage mismatches
-    if (!isMounted) {
-        return <header className="border-b border-slate-200 bg-white min-h-[88px]" />;
+    const navLinks = [
+        {
+            href: "/",
+            label: "Home",
+        },
+        {
+            href: "/privacy",
+            label: "Privacy",
+        },
+        ...(user.username
+            ? [
+                {
+                    href: "/Dashboard",
+                    label: "Dashboard",
+                },
+            ]
+            : []),
+    ];
+
+    if (!mounted) {
+        return (
+            <header className="h-16 border-b border-slate-200 bg-white" />
+        );
     }
 
     return (
-        <header className="border-b border-slate-200 bg-white">
-            <nav
-                aria-label="Main navigation"
-                className="grid min-h-[88px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-4 max-lg:grid-cols-[1fr_auto]"
-            >
-                <div className="flex items-center gap-7">
-                    <Link href="/" className="whitespace-nowrap text-2xl">
+        <header className="sticky top-0 z-50 border-b border-slate-200 bg-white">
+            <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+                {/* Left */}
+                <div className="flex items-center gap-8">
+                    <Link
+                        href="/"
+                        className="text-xl font-bold text-slate-900 sm:text-2xl"
+                    >
                         NorthWind
                     </Link>
-                    <div className="hidden items-center gap-5 text-lg sm:flex">
-                        <Link href="/" className="hover:text-blue-700">
-                            Home
-                        </Link>
-                        <Link href="/privacy" className="hover:text-blue-700">
-                            Privacy
-                        </Link>
-                        {username && (
-                            <Link href="/Dashboard" className="hover:text-blue-700">
-                                Dashboard
+
+                    <div className="hidden md:flex items-center gap-5 text-slate-600">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className="transition hover:text-blue-700"
+                            >
+                                {link.label}
                             </Link>
-                        )}
+                        ))}
                     </div>
                 </div>
 
-                <h1 className="text-center text-4xl font-medium max-lg:col-span-2 max-lg:col-start-1 max-lg:row-start-2 max-lg:text-2xl">
+                {/* Center Title */}
+                <h1 className="absolute left-1/2 hidden -translate-x-1/2 text-lg font-medium text-slate-800 lg:block">
                     Welcome to Our Company Website!
                 </h1>
 
-                <div className="flex justify-self-end gap-5 text-lg">
-                    {/* FIXED: Check for username only, making profilePicture optional */}
-                    {username ? (
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 relative bg-slate-100 rounded-full overflow-hidden flex items-center justify-center border border-slate-200">
-                                {profilePicture ? (
-                                    <img
-                                        src={profilePicture}
-                                        alt="Profile"
-                                        className="w-full h-full object-cover"
-                                        onError={(e) => {
-                                            // Fallback placeholder image if base64 string is corrupted
-                                            (e.target as HTMLImageElement).src = "https://unsplash.com";
-                                        }}
-                                    />
-                                ) : (
-                                    // Fallback UI text icon if user has no photo set in database
-                                    <span className="text-sm font-bold text-slate-500 uppercase">
-                                        {username.charAt(0)}
-                                    </span>
-                                )}
+                {/* Right */}
+                <div className="flex items-center gap-3">
+                    {/* Desktop User Section */}
+                    <div className="hidden md:flex items-center">
+                        {user.username ? (
+                            <div className="flex items-center gap-3">
+                                <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-100">
+                                    {profilePicture ? (
+                                        <img
+                                            src={profilePicture}
+                                            alt="Profile"
+                                            className="h-full w-full object-cover"
+                                            onError={(e) => {
+                                                e.currentTarget.src = "/default-avatar.png";
+                                            }}
+                                        />
+                                    ) : (
+                                        <span className="text-sm font-bold uppercase text-slate-500">
+                                            {user.username.charAt(0)}
+                                        </span>
+                                    )}
+                                </div>
+
+                                <span className="font-medium text-slate-800">
+                                    {user.username}
+                                </span>
+
+                                <button
+                                    onClick={logout}
+                                    className="ml-2 border-l border-slate-300 pl-3 text-sm text-slate-500 transition hover:text-red-600"
+                                >
+                                    Logout
+                                </button>
                             </div>
-                            <span className="font-medium text-slate-800">{username}</span>
-                            <button
-                                onClick={logout}
-                                className="hover:text-red-600 transition text-sm pl-2 border-l border-slate-300 ml-1"
-                            >
-                                Logout
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="flex items-center gap-4">
-                            <Link href="/Register" className="hover:text-blue-700">
-                                Register
-                            </Link>
-                            <Link href="/login" className="hover:text-blue-700">
-                                Login
-                            </Link>
-                        </div>
-                    )}
+                        ) : (
+                            <div className="flex items-center gap-4">
+                                <Link
+                                    href="/Register"
+                                    className="text-slate-600 transition hover:text-blue-700"
+                                >
+                                    Register
+                                </Link>
+
+                                <Link
+                                    href="/login"
+                                    className="text-slate-600 transition hover:text-blue-700"
+                                >
+                                    Login
+                                </Link>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        onClick={() => setIsMenuOpen((prev) => !prev)}
+                        aria-expanded={isMenuOpen}
+                        aria-label="Toggle menu"
+                        className="flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 text-slate-700 hover:bg-slate-50 md:hidden"
+                    >
+                        {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                    </button>
                 </div>
             </nav>
+
+            {/* Mobile Menu */}
+            <div
+                className={`overflow-hidden transition-all duration-300 md:hidden ${isMenuOpen ? "max-h-screen" : "max-h-0"
+                    }`}
+            >
+                <div className="border-t border-slate-200 bg-white px-4 py-5">
+                    <h2 className="mb-5 text-center text-lg font-medium text-slate-800">
+                        Welcome to Our Company Website!
+                    </h2>
+
+                    <div className="flex flex-col gap-2">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                onClick={() => setIsMenuOpen(false)}
+                                className="rounded-md px-2 py-2 text-slate-700 transition hover:bg-slate-50 hover:text-blue-700"
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
+                    </div>
+
+                    <div className="mt-5 border-t border-slate-200 pt-5">
+                        {user.username ? (
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-100">
+                                        {profilePicture ? (
+                                            <img
+                                                src={profilePicture}
+                                                alt="Profile"
+                                                className="h-full w-full object-cover"
+                                                onError={(e) => {
+                                                    e.currentTarget.src = "/default-avatar.png";
+                                                }}
+                                            />
+                                        ) : (
+                                            <span className="text-sm font-bold uppercase text-slate-500">
+                                                {user.username.charAt(0)}
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <div>
+                                        <p className="text-xs text-slate-400">
+                                            Signed in as
+                                        </p>
+                                        <p className="font-semibold text-slate-800">
+                                            {user.username}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <button
+                                    onClick={() => {
+                                        logout();
+                                        setIsMenuOpen(false);
+                                    }}
+                                    className="w-full rounded-md bg-red-50 py-2.5 text-red-600 transition hover:bg-red-100"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col gap-3">
+                                <Link
+                                    href="/Register"
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className="rounded-md border py-2 text-center hover:bg-slate-50"
+                                >
+                                    Register
+                                </Link>
+
+                                <Link
+                                    href="/login"
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className="rounded-md border py-2 text-center hover:bg-slate-50"
+                                >
+                                    Login
+                                </Link>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
         </header>
     );
-
 }
