@@ -19,7 +19,7 @@ export default function RootLayout({
                     <Sidebar />
 
                     {/* Main Mainframe Stage */}
-                    <div className="pl-64">
+                    <div className="pl-0 transition-[padding] duration-300 md:pl-[var(--sidebar-width)]">
                         {/* Minimal Global Utility Topbar */}
 
                         <main>{children}</main>

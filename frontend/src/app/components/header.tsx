@@ -23,19 +23,21 @@ export default function Header() {
     }, []);
 
     const profilePicture = useMemo(() => {
-        let picture = user.profilePicture;
+        const pic = user.profilePicture;
 
-        if (
-            picture &&
-            !picture.startsWith("data:") &&
-            picture.length > 100
-        ) {
-            picture = picture.substring(0, 20).includes("Qk0")
-                ? `data:image/bmp;base64,${picture}`
-                : `data:image/jpeg;base64,${picture}`;
+        if (!pic) return "";
+
+        if (pic.startsWith("data:")) {
+            return pic;
         }
 
-        return picture;
+        if (pic.length > 100) {
+            return pic.substring(0, 20).includes("Qk0")
+                ? `data:image/bmp;base64,${pic}`
+                : `data:image/jpeg;base64,${pic}`;
+        }
+
+        return pic;
     }, [user.profilePicture]);
 
     const logout = () => {
@@ -117,7 +119,7 @@ export default function Header() {
                                             alt="Profile"
                                             className="h-full w-full object-cover"
                                             onError={(e) => {
-                                                e.currentTarget.src = "/default-avatar.png";
+                                                e.currentTarget.src = "/images/default-avatar.png";
                                             }}
                                         />
                                     ) : (

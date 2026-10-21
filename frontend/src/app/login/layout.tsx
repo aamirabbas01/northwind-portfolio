@@ -48,7 +48,7 @@ export default function RootLayout({ children }: LayoutProps<"/login">) {
           </h1>
 
           <div className="flex justify-self-end gap-5 text-lg">
-            <Link href="/register" className="hover:text-blue-700">
+            <Link href="/Register" className="hover:text-blue-700">
               Register
             </Link>
 
