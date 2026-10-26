@@ -16,6 +16,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
+
             <body
                 className="min-h-screen bg-white text-slate-900"
                 style={{ backgroundColor: "#ffffff", color: "#171717" }}

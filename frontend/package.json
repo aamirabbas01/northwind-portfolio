@@ -13,6 +13,7 @@
     "@mescius/activereportsjs-react": "^6.2.0",
     "ag-grid-community": "^36.2.0",
     "ag-grid-react": "^36.2.0",
+    "bootstrap": "^5.3.8",
     "chart.js": "^4.5.1",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^1.52.0",
