@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
   output: "standalone",
   async rewrites() {
     return {
-      beforeFiles: [
+      fallback: [
         {
           source: "/api/:path*",
           destination: `${backendUrl}/api/:path*`,

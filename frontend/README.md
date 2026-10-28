@@ -18,12 +18,24 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Backend API
 
-Requests to `/api/*` are proxied to the backend. By default, the backend is expected
-at `http://127.0.0.1:3001`, matching the backend's default port. Set `BACKEND_URL`
+Requests to `/api/*` that do not match a local Next.js route are proxied to the
+backend as a fallback. Local Next.js API routes, including `/ai-api/order-insights`,
+are handled by the frontend and are never sent to the backend. By default, the
+backend is expected at `http://127.0.0.1:3001`, matching the backend's default port.
+Set `BACKEND_URL`
 to the backend's reachable origin when it runs elsewhere (for example,
 `http://localhost:3001` for local development or the backend service URL in a
 containerized deployment). Set this variable when building the frontend and rebuild
 after changing it.
+
+## Order AI insights
+
+The order-insights endpoint calls Groq from the Next.js server. Set `GROQ_API_KEY`
+as a server-only environment variable: add it to `frontend/.env.local` for local
+development, or configure it in the frontend hosting provider's environment settings
+(Netlify: Site configuration → Environment variables) for deployment. Restart the
+development server or redeploy after changing it. Do not prefix this key with
+`NEXT_PUBLIC_` or expose it in browser code.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 

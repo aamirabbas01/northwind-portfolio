@@ -11,6 +11,7 @@ import {
     ChevronRight,
     LayoutDashboard,
     UserCheck,
+    Truck,
     Menu,
     X
 } from "lucide-react";
@@ -43,6 +44,10 @@ export default function Sidebar() {
         isActivePath("/Products") ||
         isActivePath("/Categories");
 
+    const isOrderPath =
+        isActivePath("/Orders") ||
+        isActivePath("/Shippers");
+
     const isReportPath =
         isActivePath("/Report");
 
@@ -63,7 +68,7 @@ export default function Sidebar() {
         useState({
             hr: true,
             business: isBusinessPath,
-            orders: false,
+            orders: isOrderPath,
             reports: isReportPath,
         });
 
@@ -359,6 +364,60 @@ return (
                                             )}
                                         >
                                             Categories
+                                        </Link>
+                                    </li>
+                                </ul>
+                            )}
+                    </li>
+
+                    {/* Orders */}
+                    <li>
+                        <button
+                            className="flex w-full items-center justify-between rounded px-3 py-2 hover:bg-[#494e54]"
+                            onClick={() =>
+                                toggleMenu(
+                                    "orders"
+                                )
+                            }
+                        >
+                            <div className="flex items-center gap-3">
+                                <Truck size={18} />
+                                {!collapsed &&
+                                    "Orders"}
+                            </div>
+
+                            {!collapsed &&
+                                (openMenus.orders ? (
+                                    <ChevronDown size={14} />
+                                ) : (
+                                    <ChevronRight size={14} />
+                                ))}
+                        </button>
+
+                        {!collapsed &&
+                            openMenus.orders && (
+                                <ul className="pl-6 mt-1 space-y-1">
+                                    <li>
+                                        <Link
+                                            href="/Orders"
+                                            className={getLinkClassName(
+                                                "/Orders",
+                                                "block rounded px-3 py-1.5"
+                                            )}
+                                        >
+                                            Manage Orders
+                                        </Link>
+                                    </li>
+
+                                    <li>
+                                        <Link
+                                            href="/Shippers"
+                                            className={getLinkClassName(
+                                                "/Shippers",
+                                                "block rounded px-3 py-1.5"
+                                            )}
+                                        >
+                                            Shippers
                                         </Link>
                                     </li>
                                 </ul>

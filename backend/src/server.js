@@ -5,6 +5,7 @@ const employeeRoutes = require("./routes/employeeRoute");
 const customerRoutes = require("./routes/customerRoute");
 const categoryRoutes = require("./routes/CategoryRoute");
 const productRoutes = require("./routes/productRoute");
+const ordersRoutes = require("./routes/orderRoute");
 const reportsRoutes = require("./routes/reportRoute");
 
 const cors = require('cors');
@@ -25,6 +26,7 @@ app.use("/api/customers", customerRoutes);
 app.use("/api/dashboard", require("./routes/dashboardRoute"));
 app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/orders", ordersRoutes);
 app.use("/api/report", reportsRoutes);
 const port = process.env.HTTP_PLATFORM_PORT || process.env.PORT || 3001;
 app.listen(port, () => console.log(`Listening on ${port}`));

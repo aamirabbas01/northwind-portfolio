@@ -40,6 +40,10 @@ export default function DashboardView() {
     });
     const [salesData, setSalesData] = useState<SalesDataPoint[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [aiInsights, setAiInsights] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [insightsError, setInsightsError] = useState("");
+
     const metrics = [
         {
             title: 'Total Orders',
@@ -164,6 +168,38 @@ export default function DashboardView() {
         ]
     };
 
+    const handleGenerateInsights = async () => {
+        setLoading(true);
+        setInsightsError("");
+
+        try {
+            const response = await fetch("/ai-api/ai-insights", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ salesData }),
+            });
+            const result: { insights?: string; error?: string } =
+                await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error ?? "Failed to generate insights.");
+            }
+
+            setAiInsights(result.insights ?? "");
+        } catch (error) {
+            console.error("Failed to generate AI insights:", error);
+            setInsightsError(
+                error instanceof Error
+                    ? error.message
+                    : "Failed to generate AI insights."
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="p-6 bg-[#f4f6f9] min-h-screen text-slate-800">
             {/* Content Header Title */}
@@ -219,29 +255,63 @@ export default function DashboardView() {
                 </div>
             </div>
             {/* Database Context Details Box */}
-            <div className="rounded border border-slate-200 bg-white shadow-sm">
-                <div className="border-b border-slate-200 px-4 py-3 bg-slate-50">
-                    <h2 className="font-semibold text-slate-700">About Northwind Data Schema</h2>
-                </div>
-                <div className="mx-auto max-w-[1400px] text-base leading-8 text-slate-900 sm:text-xl mt-5">
-                    <p>
-                        Northwind is a fictional company often used as a sample database
-                        in tutorials and training materials for database management
-                        systems, particularly Microsoft Access and SQL Server.
-                        It represents a small international trading company that imports
-                        and exports specialty foods from around the world.
-                        The Northwind database includes various interconnected tables
-                        such as Customers, Orders, Employees, Products, and Suppliers,
-                        allowing users to practice and understand relational database
-                        concepts through realistic business scenarios.
-                    </p>
-                    <p>
-                        Its structured data and relationships make it a valuable tool
-                        for learning SQL queries, data modeling, and application
-                        development.
+
+            <br />
+            <button
+                type="button"
+                onClick={handleGenerateInsights}
+                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-lg font-semibold shadow-md"
+                disabled={loading}>
+                {loading ? "Generating..." : "Generate AI Insights"}
+            </button>
+            <br />
+            {loading && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
+                    <p className="text-blue-700 animate-pulse">
+                        🤖 Generating AI Insights...
                     </p>
                 </div>
-            </div>
+            )}
+
+            {insightsError && (
+                <div
+                    role="alert"
+                    className="bg-red-50 border border-red-200 text-red-700 rounded-lg p-4 mt-4"
+                >
+                    ❌ {insightsError}
+                </div>
+            )}
+
+            {aiInsights && (
+                <div className="mt-6 rounded-xl border border-slate-200 shadow-lg overflow-hidden bg-white">
+                    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-4">
+                        <h3 className="flex items-center gap-2 text-white font-semibold text-lg">
+                            🤖 AI Business Insights
+                        </h3>
+                        <p className="text-blue-100 text-sm mt-1">
+                            Powered by Groq
+                        </p>
+                    </div>
+
+                    <div className="p-5">
+                        <pre
+                            className="
+                    whitespace-pre-wrap
+                    break-words
+                    text-sm
+                    text-slate-700
+                    leading-7
+                    font-sans
+                    m-0
+                "
+                        >
+                            {aiInsights}
+                        </pre>
+                    </div>
+                </div>
+            )}
+
         </div>
+
     );
 }
