@@ -160,44 +160,49 @@ export default function OrderDetailsPage() {
                         </div>
                     </div>
 
+
+                </div>
+
+            </div>
+            <div className="bg-white border rounded shadow-sm p-6 mb-6">
+                <h2 className="text-xl font-semibold mb-4">
+                    Shipping Information
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+
                     <div>
-                        <strong>
-                            Shipped Date
-                        </strong>
-                        <div>
-                            {order.ShippedDate
-                                ? new Date(
-                                    order.ShippedDate
-                                ).toLocaleDateString()
-                                : ""}
-                        </div>
+                        <strong>Ship Name</strong>
+                        <div>{order.ShipName}</div>
                     </div>
 
                     <div>
-                        <strong>
-                            Ship Country
-                        </strong>
-                        <div>
-                            {
-                                order.ShipCountry
-                            }
-                        </div>
+                        <strong>Country</strong>
+                        <div>{order.ShipCountry}</div>
+                    </div>
+
+                    <div>
+                        <strong>City</strong>
+                        <div>{order.ShipCity}</div>
+                    </div>
+
+                    <div>
+                        <strong>Region</strong>
+                        <div>{order.ShipRegion}</div>
+                    </div>
+
+                    <div>
+                        <strong>Postal Code</strong>
+                        <div>{order.ShipPostalCode}</div>
                     </div>
 
                     <div className="md:col-span-2">
-                        <strong>
-                            Ship Address
-                        </strong>
-                        <div>
-                            {
-                                order.ShipAddress
-                            }
-                        </div>
+                        <strong>Address</strong>
+                        <div>{order.ShipAddress}</div>
                     </div>
 
                 </div>
             </div>
-
             {/* Order Items */}
 
             <div className="bg-white border rounded shadow-sm">

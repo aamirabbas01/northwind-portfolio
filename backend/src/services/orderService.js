@@ -133,6 +133,12 @@ const createOrder = async (order) => {
             .input("RequiredDate", sql.DateTime, order.RequiredDate)
             .input("ShipVia", sql.Int, order.ShipVia)
             .input("Freight", sql.Decimal(18, 2), order.Freight)
+            .input("ShipName", sql.NVarChar, order.ShipName)
+            .input("ShipAddress", sql.NVarChar, order.ShipAddress)
+            .input("ShipCity", sql.NVarChar, order.ShipCity)
+            .input("ShipRegion", sql.NVarChar, order.ShipRegion)
+            .input("ShipPostalCode", sql.NVarChar, order.ShipPostalCode)
+            .input("ShipCountry", sql.NVarChar, order.ShipCountry)
             .query(`
                 INSERT INTO Orders
                 (
@@ -140,8 +146,13 @@ const createOrder = async (order) => {
                     EmployeeID,
                     OrderDate,
                     RequiredDate,
-                    ShipVia,
-                    Freight
+                    Freight,
+                    ShipName,
+                    ShipAddress,
+                    ShipCity,
+                    ShipRegion,
+                    ShipPostalCode,
+                    ShipCountry
                 )
                 VALUES
                 (
@@ -149,9 +160,14 @@ const createOrder = async (order) => {
                     @EmployeeID,
                     @OrderDate,
                     @RequiredDate,
-                    @ShipVia,
-                    @Freight
-                );
+                    @Freight,
+                    @ShipName,
+                    @ShipAddress,
+                    @ShipCity,
+                    @ShipRegion,
+                    @ShipPostalCode,
+                    @ShipCountry
+                )
 
                 SELECT SCOPE_IDENTITY() AS OrderID;
             `);
@@ -206,12 +222,24 @@ const updateOrder = async (orderId, order) => {
             .input("CustomerID", sql.NVarChar, order.CustomerID)
             .input("EmployeeID", sql.Int, order.EmployeeID)
             .input("Freight", sql.Decimal(18, 2), order.Freight)
+            .input("ShipName", sql.NVarChar, order.ShipName)
+            .input("ShipAddress", sql.NVarChar, order.ShipAddress)
+            .input("ShipCity", sql.NVarChar, order.ShipCity)
+            .input("ShipRegion", sql.NVarChar, order.ShipRegion)
+            .input("ShipPostalCode", sql.NVarChar, order.ShipPostalCode)
+            .input("ShipCountry", sql.NVarChar, order.ShipCountry)
             .query(`
                 UPDATE Orders
                 SET
                     CustomerID = @CustomerID,
                     EmployeeID = @EmployeeID,
-                    Freight = @Freight
+                    Freight = @Freight,
+                    ShipName = @ShipName,
+                    ShipAddress = @ShipAddress,
+                    ShipCity = @ShipCity,
+                    ShipRegion = @ShipRegion,
+                    ShipPostalCode = @ShipPostalCode,
+                    ShipCountry = @ShipCountry
                 WHERE OrderID = @OrderID
             `);
 

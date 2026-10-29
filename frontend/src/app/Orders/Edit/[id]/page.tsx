@@ -51,6 +51,12 @@ export default function EditOrderPage() {
         OrderDate: "",
         RequiredDate: "",
         Freight: 0,
+        ShipName: "",
+        ShipAddress: "",
+        ShipCity: "",
+        ShipRegion: "",
+        ShipPostalCode: "",
+        ShipCountry: ""
     });
 
     const [items, setItems] = useState<OrderItem[]>([]);
@@ -104,18 +110,18 @@ export default function EditOrderPage() {
             setProducts(productsData);
 
             setForm({
-                CustomerID:
-                    orderData.CustomerID || "",
-                EmployeeID:
-                    orderData.EmployeeID || "",
-                OrderDate:
-                    orderData.OrderDate
-                        ?.substring(0, 10) || "",
-                RequiredDate:
-                    orderData.RequiredDate
-                        ?.substring(0, 10) || "",
-                Freight:
-                    orderData.Freight || 0
+                CustomerID: orderData.CustomerID || "",
+                EmployeeID: orderData.EmployeeID || "",
+                OrderDate: orderData.OrderDate?.substring(0, 10) || "",
+                RequiredDate: orderData.RequiredDate?.substring(0, 10) || "",
+                Freight: orderData.Freight || 0,
+
+                ShipName: orderData.ShipName || "",
+                ShipAddress: orderData.ShipAddress || "",
+                ShipCity: orderData.ShipCity || "",
+                ShipRegion: orderData.ShipRegion || "",
+                ShipPostalCode: orderData.ShipPostalCode || "",
+                ShipCountry: orderData.ShipCountry || ""
             });
 
             setItems(
@@ -173,17 +179,26 @@ export default function EditOrderPage() {
         };
 
         if (field === "ProductID") {
+            const productId = Number(value);
+
+            const alreadyExists = items.some(
+                (item, i) =>
+                    i !== index &&
+                    item.ProductID === productId
+            );
+
+            if (alreadyExists) {
+                alert("This product is already added.");
+                return;
+            }
+
             const product = products.find(
-                (p) =>
-                    p.ProductID === Number(value)
+                p => p.ProductID === productId
             );
 
             if (product) {
-                updated[index].ProductName =
-                    product.ProductName;
-
-                updated[index].UnitPrice =
-                    Number(product.UnitPrice);
+                updated[index].ProductName = product.ProductName;
+                updated[index].UnitPrice = Number(product.UnitPrice);
             }
         }
 
@@ -205,6 +220,18 @@ export default function EditOrderPage() {
         e: React.FormEvent
     ) => {
         e.preventDefault();
+
+        const duplicateProducts = items.filter(
+            (item, index) =>
+                items.findIndex(
+                    p => p.ProductID === item.ProductID
+                ) !== index
+        );
+
+        if (duplicateProducts.length > 0) {
+            alert("Duplicate products are not allowed.");
+            return;
+        }
 
         const response = await fetch(
             `/api/orders/${orderId}`,
@@ -390,7 +417,113 @@ export default function EditOrderPage() {
                                 }
                             />
                         </div>
+                        <div>
+                            <label className="block mb-1">
+                                Ship Name
+                            </label>
 
+                            <input
+                                type="text"
+                                className="w-full border rounded px-3 py-2"
+                                value={form.ShipName}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        ShipName: e.target.value
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-1">
+                                Ship Address
+                            </label>
+
+                            <input
+                                type="text"
+                                className="w-full border rounded px-3 py-2"
+                                value={form.ShipAddress}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        ShipAddress: e.target.value
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-1">
+                                Ship City
+                            </label>
+
+                            <input
+                                type="text"
+                                className="w-full border rounded px-3 py-2"
+                                value={form.ShipCity}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        ShipCity: e.target.value
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-1">
+                                Ship Region
+                            </label>
+
+                            <input
+                                type="text"
+                                className="w-full border rounded px-3 py-2"
+                                value={form.ShipRegion}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        ShipRegion: e.target.value
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-1">
+                                Postal Code
+                            </label>
+
+                            <input
+                                type="text"
+                                className="w-full border rounded px-3 py-2"
+                                value={form.ShipPostalCode}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        ShipPostalCode: e.target.value
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-1">
+                                Country
+                            </label>
+
+                            <input
+                                type="text"
+                                className="w-full border rounded px-3 py-2"
+                                value={form.ShipCountry}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        ShipCountry: e.target.value
+                                    })
+                                }
+                            />
+                        </div>
                     </div>
 
                 </div>

@@ -34,6 +34,7 @@ export default function OrdersPage() {
 
     const [rowData, setRowData] =
         useState<OrderRow[]>([]);
+    const [ordersLoading, setOrdersLoading] = useState(true);
 
     const [searchText, setSearchText] =
         useState("");
@@ -69,9 +70,15 @@ export default function OrdersPage() {
     useEffect(() => {
         let isActive = true;
         const load = async () => {
-            const orders = await loadOrders();
-            if (isActive && orders) {
-                setRowData(orders);
+            try {
+                const orders = await loadOrders();
+                if (isActive && orders) {
+                    setRowData(orders);
+                }
+            } finally {
+                if (isActive) {
+                    setOrdersLoading(false);
+                }
             }
         };
 
@@ -306,6 +313,7 @@ export default function OrdersPage() {
                         50,
                     ]}
                     animateRows
+                    loading={ordersLoading}
                 />
             </div>
             <br />

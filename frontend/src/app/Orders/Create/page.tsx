@@ -47,6 +47,13 @@ export default function CreateOrderPage() {
             .split("T")[0],
         RequiredDate: "",
         Freight: 0,
+
+        ShipName: "",
+        ShipAddress: "",
+        ShipCity: "",
+        ShipRegion: "",
+        ShipPostalCode: "",
+        ShipCountry: ""
     });
 
     const [items, setItems] = useState<OrderItem[]>([]);
@@ -126,8 +133,21 @@ export default function CreateOrderPage() {
         };
 
         if (field === "ProductID") {
+            const productId = Number(value);
+
+            const alreadyExists = items.some(
+                (item, i) =>
+                    i !== index &&
+                    item.ProductID === productId
+            );
+
+            if (alreadyExists) {
+                alert("This product is already added.");
+                return;
+            }
+
             const product = products.find(
-                (p) => p.ProductID === Number(value)
+                p => p.ProductID === productId
             );
 
             if (product) {
@@ -154,7 +174,17 @@ export default function CreateOrderPage() {
         e: React.FormEvent
     ) => {
         e.preventDefault();
+        const duplicateProducts = items.filter(
+            (item, index) =>
+                items.findIndex(
+                    p => p.ProductID === item.ProductID
+                ) !== index
+        );
 
+        if (duplicateProducts.length > 0) {
+            alert("Duplicate products are not allowed.");
+            return;
+        }
         const response = await fetch("/api/orders", {
             method: "POST",
             headers: {
@@ -351,7 +381,113 @@ export default function CreateOrderPage() {
                                 }
                             />
                         </div>
+                        <div>
+                            <label className="block mb-1">
+                                Ship Name
+                            </label>
 
+                            <input
+                                type="text"
+                                className="w-full border rounded px-3 py-2"
+                                value={form.ShipName}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        ShipName: e.target.value
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-1">
+                                Address
+                            </label>
+
+                            <input
+                                type="text"
+                                className="w-full border rounded px-3 py-2"
+                                value={form.ShipAddress}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        ShipAddress: e.target.value
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-1">
+                                City
+                            </label>
+
+                            <input
+                                type="text"
+                                className="w-full border rounded px-3 py-2"
+                                value={form.ShipCity}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        ShipCity: e.target.value
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-1">
+                                Region
+                            </label>
+
+                            <input
+                                type="text"
+                                className="w-full border rounded px-3 py-2"
+                                value={form.ShipRegion}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        ShipRegion: e.target.value
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-1">
+                                Postal Code
+                            </label>
+
+                            <input
+                                type="text"
+                                className="w-full border rounded px-3 py-2"
+                                value={form.ShipPostalCode}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        ShipPostalCode: e.target.value
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-1">
+                                Country
+                            </label>
+
+                            <input
+                                type="text"
+                                className="w-full border rounded px-3 py-2"
+                                value={form.ShipCountry}
+                                onChange={(e) =>
+                                    setForm({
+                                        ...form,
+                                        ShipCountry: e.target.value
+                                    })
+                                }
+                            />
+                        </div>
                     </div>
                 </div>
 
@@ -471,11 +607,7 @@ export default function CreateOrderPage() {
                                                     updateItem(
                                                         index,
                                                         "Quantity",
-                                                        Number(
-                                                            e
-                                                                .target
-                                                                .value
-                                                        )
+                                                        Math.max(1, Number(e.target.value))
                                                     )
                                                 }
                                             />
