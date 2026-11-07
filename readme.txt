@@ -313,3 +313,89 @@ Developed using:
 - Node.js REST API
 - ASP.NET Identity Authentication
 - Microsoft SQL Server Northwind Database
+
+AI-Powered Business Intelligence
+================================
+
+Grok AI Integration
+-------------------
+
+The system integrates Grok AI to provide intelligent business insights and decision support.
+
+Dashboard AI Insights
+---------------------
+
+Grok AI analyzes Northwind business data and provides:
+
+- Sales trend analysis
+- Revenue forecasting
+- Customer purchasing behavior insights
+- Inventory recommendations
+- Business performance summaries
+- Monthly and yearly sales predictions
+- Executive decision-support recommendations
+
+Orders AI Insights
+------------------
+
+Within the Orders module, Grok AI assists users by:
+
+- Analyzing order patterns
+- Predicting future sales trends
+- Identifying top-performing products
+- Recommending inventory adjustments
+- Highlighting unusual order activity
+- Generating business summaries from order data
+
+AI Features
+-----------
+
+- Natural Language Business Analysis
+- Real-Time Data Insights
+- Predictive Analytics
+- Revenue Forecasting
+- Inventory Optimization Suggestions
+- Customer Trend Analysis
+- Order Intelligence Reporting
+
+Technology Integration
+======================
+
+Artificial Intelligence
+-----------------------
+- Grok AI API Integration
+- Business Analytics Engine
+- Predictive Sales Analysis
+- AI-Generated Management Insights
+
+Key Business Modules
+====================
+
+1. Dashboard
+   - KPI Cards
+   - Sales Charts
+   - Revenue Analytics
+   - Grok AI Insights
+
+2. Products
+   - Product Management
+   - Category Management
+   - Supplier Tracking
+
+3. Customers
+   - Customer Profiles
+   - Customer Management
+
+4. Orders
+   - Order Processing
+   - Order Details
+   - Grok AI Sales Insights
+   - Sales Forecasting
+
+5. Employees
+   - Employee Records
+   - Administration Tools
+
+6. Reports
+   - Business Reports
+   - Analytics Dashboard
